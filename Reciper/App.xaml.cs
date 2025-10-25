@@ -17,20 +17,20 @@ namespace Reciper
 
                 if (!ok) return;
 
-                // Crea ricetta di test
-                var newRecipe = new Recipe
-                {
-                    Title = "Carbonara di test",
-                    Guide = "Mescola uova, guanciale e pecorino.",
-                    Tips = "Non aggiungere panna.",
-                    PrepMinutes = 20,
-                    Servings = 2,
-                    Ingredients = new() { "Uova", "Guanciale", "Pecorino", "Pasta" },
-                    Tags = new() { "Italiana", "Pasta" }
-                };
+                //// Crea ricetta di test
+                //var newRecipe = new Recipe
+                //{
+                //    Title = "Carbonara di test",
+                //    Guide = "Mescola uova, guanciale e pecorino.",
+                //    Tips = "Non aggiungere panna.",
+                //    PrepMinutes = 20,
+                //    Servings = 2,
+                //    Ingredients = new() { "Uova", "Guanciale", "Pecorino", "Pasta" },
+                //    Tags = new() { "Italiana", "Pasta" }
+                //};
 
-                var id = await repo.CreateAsync(newRecipe);
-                System.Diagnostics.Debug.WriteLine($"Creata ricetta ID: {id}");
+                //var id = await repo.CreateAsync(newRecipe);
+                //System.Diagnostics.Debug.WriteLine($"Creata ricetta ID: {id}");
 
                 // Lettura di tutte le ricette
                 var all = await repo.GetAllAsync();
