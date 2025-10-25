@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using Syncfusion.Maui.Toolkit.Hosting;
+using Reciper.Models;
 using Reciper.Services;
+using Syncfusion.Maui.Toolkit.Hosting;
 
 namespace Reciper
 {
@@ -45,6 +46,7 @@ namespace Reciper
 
             //custom
             builder.Services.AddSingleton<IFirebaseAuth, FirebaseAuth>();
+            builder.Services.AddSingleton<IRecipeRepository, FirestoreRecipeRepository>();
 
             builder.Services.AddTransientWithShellRoute<ProjectDetailPage, ProjectDetailPageModel>("project");
             builder.Services.AddTransientWithShellRoute<TaskDetailPage, TaskDetailPageModel>("task");

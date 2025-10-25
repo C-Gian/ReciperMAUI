@@ -1,5 +1,4 @@
 ﻿using Reciper.Models;
-using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -7,10 +6,8 @@ namespace Reciper.Services;
 
 static class FirestoreMapper
 {
-    // Recipe -> Firestore document
     public static JsonObject ToDoc(Recipe r)
     {
-
         JsonArray Arr(IEnumerable<string> items)
         {
             var nodes = new List<JsonNode?>();
@@ -47,11 +44,9 @@ static class FirestoreMapper
         static JsonObject Null() => new() { ["nullValue"] = JsonValue.Create((string?)null)! };
     }
 
-    // Firestore document -> Recipe
     public static Recipe FromDoc(JsonElement doc)
     {
-        string? NameToId(string name)
-            => string.IsNullOrEmpty(name) ? null : name.Split('/').Last();
+        string? NameToId(string name) => string.IsNullOrEmpty(name) ? null : name.Split('/').Last();
 
         var fields = doc.GetProperty("fields");
 
