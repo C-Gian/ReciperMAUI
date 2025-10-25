@@ -1,0 +1,19 @@
+using Reciper.ViewModels;
+
+namespace Reciper.Views;
+
+public partial class RecipesPage : ContentPage
+{
+    private readonly RecipesViewModel _vm;
+    public RecipesPage(RecipesViewModel vm)
+    {
+        InitializeComponent();
+        BindingContext = _vm = vm;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (_vm.Items.Count == 0) await _vm.LoadAsync();
+    }
+}

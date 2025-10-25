@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Reciper.Models;
-using Reciper.Services;
-using Syncfusion.Maui.Toolkit.Hosting;
 
 namespace Reciper
 {
@@ -14,13 +12,6 @@ namespace Reciper
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-                .ConfigureSyncfusionToolkit()
-                .ConfigureMauiHandlers(handlers =>
-                {
-#if IOS || MACCATALYST
-    				handlers.AddHandler<Microsoft.Maui.Controls.CollectionView, Microsoft.Maui.Controls.Handlers.Items2.CollectionViewHandler2>();
-#endif
-                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -34,22 +25,10 @@ namespace Reciper
     		builder.Services.AddLogging(configure => configure.AddDebug());
 #endif
 
-            builder.Services.AddSingleton<ProjectRepository>();
-            builder.Services.AddSingleton<TaskRepository>();
-            builder.Services.AddSingleton<CategoryRepository>();
-            builder.Services.AddSingleton<TagRepository>();
-            builder.Services.AddSingleton<SeedDataService>();
-            builder.Services.AddSingleton<ModalErrorHandler>();
-            builder.Services.AddSingleton<MainPageModel>();
-            builder.Services.AddSingleton<ProjectListPageModel>();
-            builder.Services.AddSingleton<ManageMetaPageModel>();
-
-            //custom
             builder.Services.AddSingleton<IFirebaseAuth, FirebaseAuth>();
             builder.Services.AddSingleton<IRecipeRepository, FirestoreRecipeRepository>();
-
-            builder.Services.AddTransientWithShellRoute<ProjectDetailPage, ProjectDetailPageModel>("project");
-            builder.Services.AddTransientWithShellRoute<TaskDetailPage, TaskDetailPageModel>("task");
+            builder.Services.AddTransient<Reciper.Views.RecipesPage>();
+            builder.Services.AddTransient<Reciper.ViewModels.RecipesViewModel>();
 
             return builder.Build();
         }

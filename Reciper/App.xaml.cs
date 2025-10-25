@@ -12,7 +12,7 @@ namespace Reciper
 
             _ = Task.Run(async () =>
             {
-                var ok = await auth.SignInAsync("g.culaon@gmail.com", "porcodio_99");
+                var ok = await auth.SignInAsync(Reciper.Utils.DevSecrets.Email, Reciper.Utils.DevSecrets.Password);
                 System.Diagnostics.Debug.WriteLine($"Firebase login: {ok}");
 
                 if (!ok) return;

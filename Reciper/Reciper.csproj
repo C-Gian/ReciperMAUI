@@ -68,6 +68,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Utils\DevSecrets.example.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 	</ItemGroup>
@@ -84,6 +88,16 @@
 
 	<ItemGroup>
 	  <Folder Include="Resources\Strings\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Utils\DevSecrets.example.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\RecipesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 	
 </Project>
