@@ -29,6 +29,12 @@ namespace Reciper
             builder.Services.AddSingleton<IRecipeRepository, FirestoreRecipeRepository>();
             builder.Services.AddTransient<Reciper.Views.RecipesPage>();
             builder.Services.AddTransient<Reciper.ViewModels.RecipesViewModel>();
+            builder.Services.AddTransient<Reciper.ViewModels.RecipeDetailViewModel>();
+            builder.Services.AddTransient<Reciper.Views.RecipeDetailPage>();
+            builder.Services.AddSingleton<IImageService, ImageService>();
+            builder.Services.AddSingleton<IStorageService, FirebaseStorageService>();
+            builder.Services.AddTransient<Reciper.ViewModels.RecipeEditViewModel>();
+            builder.Services.AddTransient<Reciper.Views.RecipeEditPage>();
 
             return builder.Build();
         }

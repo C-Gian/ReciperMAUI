@@ -10,6 +10,8 @@ namespace Reciper
         {
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
+            Routing.RegisterRoute("recipeDetail", typeof(Reciper.Views.RecipeDetailPage));
+            Routing.RegisterRoute("recipeEdit", typeof(Reciper.Views.RecipeEditPage));
         }
         public static async Task DisplaySnackbarAsync(string message)
         {

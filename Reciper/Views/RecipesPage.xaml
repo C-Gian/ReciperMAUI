@@ -6,13 +6,13 @@
     Title="Ricette">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Aggiungi" Priority="0" Order="Primary" />
+        <ToolbarItem Text="Aggiungi" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto,*" Padding="12">
         <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
         <RefreshView Grid.Row="1" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshAsyncCommand}">
-            <CollectionView ItemsSource="{Binding Items}">
+            <CollectionView SelectionMode="Single" SelectionChanged="OnSelectionChanged" ItemsSource="{Binding Items}">
                 <CollectionView.EmptyView>
                     <Label Text="Nessuna ricetta" HorizontalOptions="Center" VerticalOptions="Center" />
                 </CollectionView.EmptyView>

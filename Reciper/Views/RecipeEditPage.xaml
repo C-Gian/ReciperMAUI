@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Reciper.Views.RecipeEditPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Nuova ricetta">
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="12">
+            <Entry Placeholder="Titolo" Text="{Binding Title}" />
+            <Editor Placeholder="Guida" AutoSize="TextChanges" Text="{Binding Guide}" />
+            <Editor Placeholder="Consigli" AutoSize="TextChanges" Text="{Binding Tips}" />
+            <Entry Placeholder="Tempo (min)" Keyboard="Numeric" Text="{Binding PrepMinutes}" />
+            <Entry Placeholder="Porzioni" Keyboard="Numeric" Text="{Binding Servings}" />
+            <Button Text="Scegli immagine" Command="{Binding PickImageAsyncCommand}" />
+            <Image Source="{Binding ImageUrl}" HeightRequest="200" />
+            <Button Text="Salva" Command="{Binding SaveAsyncCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
