@@ -28,6 +28,8 @@ public partial class RecipesPage : ContentPage
 
     private async void OnAddClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("recipeEdit");
+        var page = Handler.MauiContext!.Services.GetRequiredService<Reciper.Views.RecipeEditPage>();
+        await Shell.Current.Navigation.PushAsync(page);
     }
+
 }
