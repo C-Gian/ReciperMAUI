@@ -36,4 +36,14 @@ public class FirebaseStorageService : IStorageService
         var dl = $"https://firebasestorage.googleapis.com/v0/b/{FirebaseSecrets.StorageBucket}/o/{Uri.EscapeDataString(path)}?alt=media&token={token}";
         return (path, dl);
     }
+
+    public async Task DeleteAsync(string storagePath)
+    {
+        var url = $"https://firebasestorage.googleapis.com/v0/b/{FirebaseSecrets.StorageBucket}/o/{Uri.EscapeDataString(storagePath)}";
+        var req = new HttpRequestMessage(HttpMethod.Delete, url);
+        req.Headers.TryAddWithoutValidation("Authorization", $"Firebase {_auth.IdToken}");
+        using var res = await _http.SendAsync(req);
+        if (res.StatusCode == System.Net.HttpStatusCode.NotFound) return; // già rimossa
+        res.EnsureSuccessStatusCode();
+    }
 }

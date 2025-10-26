@@ -32,7 +32,8 @@ static class FirestoreMapper
             ["ingredients"] = new JsonObject { ["arrayValue"] = new JsonObject { ["values"] = Arr(r.Ingredients) } },
             ["tags"] = new JsonObject { ["arrayValue"] = new JsonObject { ["values"] = Arr(r.Tags) } },
             ["createdUtc"] = T(r.CreatedUtc),
-            ["updatedUtc"] = T(r.UpdatedUtc)
+            ["updatedUtc"] = T(r.UpdatedUtc),
+            ["storagePath"] = r.StoragePath is null ? Null() : S(r.StoragePath)
         };
 
         return new JsonObject { ["fields"] = f };
@@ -67,6 +68,7 @@ static class FirestoreMapper
             Tags = ReadArray(fields, "tags"),
             CreatedUtc = DateTime.Parse(fields.GetProperty("createdUtc").GetProperty("timestampValue").GetString()!, null, System.Globalization.DateTimeStyles.AdjustToUniversal),
             UpdatedUtc = DateTime.Parse(fields.GetProperty("updatedUtc").GetProperty("timestampValue").GetString()!, null, System.Globalization.DateTimeStyles.AdjustToUniversal),
+            StoragePath = fields.TryGetProperty("storagePath", out var sp) && sp.TryGetProperty("stringValue", out var spsv) ? spsv.GetString() : null,
         };
 
         static List<string> ReadArray(JsonElement f, string key)

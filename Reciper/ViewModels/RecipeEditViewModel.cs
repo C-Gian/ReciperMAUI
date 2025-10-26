@@ -12,14 +12,17 @@ public partial class RecipeEditViewModel : ObservableObject
     private readonly IImageService _imageSvc;
     private readonly IStorageService _storageSvc;
 
-    private string? _id;
-
+    [ObservableProperty] private string? id;
     [ObservableProperty] private string title = "";
     [ObservableProperty] private string guide = "";
     [ObservableProperty] private string tips = "";
     [ObservableProperty] private int prepMinutes;
     [ObservableProperty] private int servings = 1;
     [ObservableProperty] private string imageUrl = "";
+    [ObservableProperty] private string storagePath = "";
+
+    private string? _originalStoragePath;
+    private bool _imageChanged;
 
     public RecipeEditViewModel(IRecipeRepository repo, IImageService img, IStorageService store)
     {
@@ -39,8 +42,10 @@ public partial class RecipeEditViewModel : ObservableObject
             if (bytes is null) return;
 
             var fileName = $"{Guid.NewGuid():N}.jpg";
-            var (_, downloadUrl) = await _storageSvc.UploadImageAsync(bytes, fileName);
-            ImageUrl = downloadUrl;
+            var (sp, url) = await _storageSvc.UploadImageAsync(bytes, fileName);
+            StoragePath = sp;
+            ImageUrl = url;
+            _imageChanged = true;
             System.Diagnostics.Debug.WriteLine("PickImage done: " + ImageUrl);
         }
         catch (Exception ex)
@@ -56,28 +61,48 @@ public partial class RecipeEditViewModel : ObservableObject
     {
         var recipe = new Recipe
         {
+            Id = Id,
             Title = Title,
             Guide = Guide,
             Tips = Tips,
             PrepMinutes = PrepMinutes,
             Servings = Servings,
-            ImagePath = string.IsNullOrWhiteSpace(ImageUrl) || string.IsNullOrEmpty(ImageUrl) ? null : ImageUrl
+            ImagePath = string.IsNullOrWhiteSpace(ImageUrl) || string.IsNullOrEmpty(ImageUrl) ? null : ImageUrl,
+            StoragePath = string.IsNullOrWhiteSpace(StoragePath) || string.IsNullOrEmpty(StoragePath) ? null : StoragePath
         };
 
-        if (string.IsNullOrEmpty(_id)) await _repo.CreateAsync(recipe);
-        else await _repo.UpdateAsync(recipe);
+        if (string.IsNullOrEmpty(Id))
+        {
+            await _repo.CreateAsync(recipe);
+        }
+        else
+        {
+            await _repo.UpdateAsync(recipe);
+
+            if (_imageChanged && !string.IsNullOrWhiteSpace(_originalStoragePath) && _originalStoragePath != StoragePath)
+            {
+                var store = Application.Current!.Handler!.MauiContext!.Services.GetRequiredService<IStorageService>();
+                await store.DeleteAsync(_originalStoragePath!);
+            }
+        }
+
+        _originalStoragePath = StoragePath;
+        _imageChanged = false;
 
         await Shell.Current.Navigation.PopAsync();
     }
 
     public void Load(Recipe r)
     {
-        _id = r.Id;
+        Id = r.Id;
         Title = r.Title;
         Guide = r.Guide;
         Tips = r.Tips;
         PrepMinutes = r.PrepMinutes;
         Servings = r.Servings;
         ImageUrl = r.ImagePath ?? "";
+        StoragePath = r.StoragePath ?? "";
+        _originalStoragePath = r.StoragePath;
+        _imageChanged = false;
     }
 }

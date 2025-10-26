@@ -7,6 +7,17 @@
         <ToolbarItem Text="Modifica" Clicked="OnEditClicked" />
         <ToolbarItem Text="Elimina" Clicked="OnDeleteClicked" Priority="1" />
     </ContentPage.ToolbarItems>
+    <Image HeightRequest="240" Aspect="AspectFill">
+        <Image.Clip>
+            <RoundRectangleGeometry CornerRadius="12" Rect="0,0,9999,240"/>
+        </Image.Clip>
+        <Image.Source>
+            <UriImageSource Uri="{Binding Item.ImagePath}"
+                    CachingEnabled="True"
+                    CacheValidity="1.00:00:00"/>
+        </Image.Source>
+    </Image>
+
     <ScrollView Padding="16">
         <VerticalStackLayout Spacing="8">
             <Label Text="{Binding Item.Title}" FontSize="24" FontAttributes="Bold" />
