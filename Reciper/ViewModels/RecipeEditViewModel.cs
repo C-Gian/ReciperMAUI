@@ -31,23 +31,23 @@ public partial class RecipeEditViewModel : ObservableObject
     private void Test() => System.Diagnostics.Debug.WriteLine("TEST CMD");
 
     [RelayCommand]
-    private async Task PickImageAsync()
+    private async Task PickImage()
     {
-        System.Diagnostics.Debug.WriteLine("PickImageAsync start");
+        System.Diagnostics.Debug.WriteLine("PickImage start");
         try
         {
             var bytes = await _imageSvc.PickAndCompressJpegAsync();
-            System.Diagnostics.Debug.WriteLine("PickImageAsync bytes: " + (bytes?.Length ?? 0));
+            System.Diagnostics.Debug.WriteLine("PickImage bytes: " + (bytes?.Length ?? 0));
             if (bytes is null) return;
 
             var fileName = $"{Guid.NewGuid():N}.jpg";
             var (_, downloadUrl) = await _storageSvc.UploadImageAsync(bytes, fileName);
             ImageUrl = downloadUrl;
-            System.Diagnostics.Debug.WriteLine("PickImageAsync done: " + ImageUrl);
+            System.Diagnostics.Debug.WriteLine("PickImage done: " + ImageUrl);
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine("PickImageAsync ERR: " + ex);
+            System.Diagnostics.Debug.WriteLine("PickImage ERR: " + ex);
             await CommunityToolkit.Maui.Alerts.Toast.Make("Errore selezione immagine").Show();
         }
     }

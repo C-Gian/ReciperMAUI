@@ -12,7 +12,6 @@ public class ImageService : IImageService
         {
             byte[]? raw = null;
 
-            // 1) Prova MediaPicker (Photo Picker Android 13+)
             try
             {
                 await Microsoft.Maui.ApplicationModel.MainThread.InvokeOnMainThreadAsync(async () =>
