@@ -15,7 +15,7 @@
             <Entry Placeholder="Porzioni" Keyboard="Numeric" Text="{Binding Servings}" />
             <Button Text="Scegli immagine" Command="{Binding PickImageCommand}" />
             <Image Source="{Binding ImageUrl}" HeightRequest="200" />
-            <Button Text="Salva" Command="{Binding SaveAsyncCommand}" />
+            <Button Text="Salva" Command="{Binding SaveCommand}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

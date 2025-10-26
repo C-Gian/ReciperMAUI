@@ -33,7 +33,6 @@ public class ImageService : IImageService
                 Debug.WriteLine("MediaPicker errore: " + ex.Message);
             }
 
-            // 2) Fallback: FilePicker (funziona anche senza Photo Picker)
             if (raw is null)
             {
                 var result = await Microsoft.Maui.Storage.FilePicker.PickAsync(new Microsoft.Maui.Storage.PickOptions

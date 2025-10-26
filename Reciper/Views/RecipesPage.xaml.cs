@@ -14,7 +14,7 @@ public partial class RecipesPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (_vm.Items.Count == 0) await _vm.LoadAsync();
+        await _vm.LoadAsync();
     }
 
     private async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)

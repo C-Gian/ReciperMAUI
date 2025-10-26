@@ -12,6 +12,8 @@ public partial class RecipeEditViewModel : ObservableObject
     private readonly IImageService _imageSvc;
     private readonly IStorageService _storageSvc;
 
+    private string? _id;
+
     [ObservableProperty] private string title = "";
     [ObservableProperty] private string guide = "";
     [ObservableProperty] private string tips = "";
@@ -25,10 +27,6 @@ public partial class RecipeEditViewModel : ObservableObject
         _imageSvc = img;
         _storageSvc = store;
     }
-
-    // comando sonda
-    [RelayCommand]
-    private void Test() => System.Diagnostics.Debug.WriteLine("TEST CMD");
 
     [RelayCommand]
     private async Task PickImage()
@@ -54,7 +52,7 @@ public partial class RecipeEditViewModel : ObservableObject
 
 
     [RelayCommand]
-    private async Task SaveAsync()
+    private async Task Save()
     {
         var recipe = new Recipe
         {
@@ -63,9 +61,23 @@ public partial class RecipeEditViewModel : ObservableObject
             Tips = Tips,
             PrepMinutes = PrepMinutes,
             Servings = Servings,
-            ImagePath = ImageUrl
+            ImagePath = string.IsNullOrWhiteSpace(ImageUrl) || string.IsNullOrEmpty(ImageUrl) ? null : ImageUrl
         };
-        await _repo.CreateAsync(recipe);
-        await Shell.Current.GoToAsync("..");
+
+        if (string.IsNullOrEmpty(_id)) await _repo.CreateAsync(recipe);
+        else await _repo.UpdateAsync(recipe);
+
+        await Shell.Current.Navigation.PopAsync();
+    }
+
+    public void Load(Recipe r)
+    {
+        _id = r.Id;
+        Title = r.Title;
+        Guide = r.Guide;
+        Tips = r.Tips;
+        PrepMinutes = r.PrepMinutes;
+        Servings = r.Servings;
+        ImageUrl = r.ImagePath ?? "";
     }
 }

@@ -19,9 +19,17 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="8" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
-                            <Frame Grid.RowSpan="2" WidthRequest="56" HeightRequest="56" CornerRadius="8" Padding="0" HasShadow="False" BackgroundColor="#EEE" />
-                            <Label Grid.Column="1" Text="{Binding Title}" FontAttributes="Bold" FontSize="16" />
-                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Tags[0]}" FontSize="12" TextColor="#666" />
+                            <Image Grid.RowSpan="2" WidthRequest="56" HeightRequest="56" Aspect="AspectFill">
+                                <Image.Clip>
+                                    <RoundRectangleGeometry CornerRadius="8" Rect="0,0,56,56"/>
+                                </Image.Clip>
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding ImagePath}" CachingEnabled="True" CacheValidity="1.00:00:00"/>
+                                </Image.Source>
+                            </Image>
+
+                            <Label Grid.Column="1" Text="{Binding Title}" FontAttributes="Bold" FontSize="16"/>
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Tags[0]}" FontSize="12" TextColor="#666"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
