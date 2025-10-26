@@ -7,10 +7,13 @@ namespace Reciper.ViewModels;
 
 public partial class RecipesViewModel : ObservableObject
 {
-    private readonly IRecipeRepository _repo;
+    #region Property
 
-    [ObservableProperty] private bool isBusy;
-    [ObservableProperty] private bool isRefreshing;
+    [ObservableProperty]
+    private bool isBusy;
+
+    [ObservableProperty]
+    private bool isRefreshing;
 
     [ObservableProperty]
     private string query = string.Empty;
@@ -18,11 +21,14 @@ public partial class RecipesViewModel : ObservableObject
     [ObservableProperty]
     private string? selectedTag;
 
+    private readonly IRecipeRepository _repo;
     public ObservableCollection<TagFilterItem> Tags { get; } = new();
+    public ObservableCollection<Recipe> Items { get; } = new();
 
     private List<Recipe> _all = new();
 
-    public ObservableCollection<Recipe> Items { get; } = new();
+    #endregion
+
 
     public RecipesViewModel(IRecipeRepository repo)
     {
@@ -118,7 +124,10 @@ public partial class RecipesViewModel : ObservableObject
 public partial class TagFilterItem : ObservableObject
 {
     public string Name { get; }
-    [ObservableProperty] private bool isSelected;
+
+    [ObservableProperty] 
+    private bool isSelected;
+
     public TagFilterItem(string name, bool selected = false)
     {
         Name = name;
