@@ -13,6 +13,7 @@
             <Editor Placeholder="Consigli" AutoSize="TextChanges" Text="{Binding Tips}" />
             <Entry Placeholder="Tempo (min)" Keyboard="Numeric" Text="{Binding PrepMinutes}" />
             <Entry Placeholder="Porzioni" Keyboard="Numeric" Text="{Binding Servings}" />
+            <Entry Placeholder="Tag (separa con virgole)" Text="{Binding TagsCsv}" />
             <Button Text="Scegli immagine" Command="{Binding PickImageCommand}" />
             <Image Source="{Binding ImageUrl}" HeightRequest="200" />
             <Button Text="Salva" Command="{Binding SaveCommand}" />

@@ -20,6 +20,8 @@ public partial class RecipeEditViewModel : ObservableObject
     [ObservableProperty] private int servings = 1;
     [ObservableProperty] private string imageUrl = "";
     [ObservableProperty] private string storagePath = "";
+    [ObservableProperty] private string tagsCsv = ""; 
+
 
     private string? _originalStoragePath;
     private bool _imageChanged;
@@ -59,6 +61,14 @@ public partial class RecipeEditViewModel : ObservableObject
     [RelayCommand]
     private async Task Save()
     {
+        var tags = string.IsNullOrWhiteSpace(TagsCsv)
+            ? new List<string>()
+            : TagsCsv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                     .Select(t => t.Trim())
+                     .Where(t => t.Length > 0)
+                     .Distinct(StringComparer.OrdinalIgnoreCase)
+                     .ToList();
+
         var recipe = new Recipe
         {
             Id = Id,
@@ -68,7 +78,8 @@ public partial class RecipeEditViewModel : ObservableObject
             PrepMinutes = PrepMinutes,
             Servings = Servings,
             ImagePath = string.IsNullOrWhiteSpace(ImageUrl) || string.IsNullOrEmpty(ImageUrl) ? null : ImageUrl,
-            StoragePath = string.IsNullOrWhiteSpace(StoragePath) || string.IsNullOrEmpty(StoragePath) ? null : StoragePath
+            StoragePath = string.IsNullOrWhiteSpace(StoragePath) || string.IsNullOrEmpty(StoragePath) ? null : StoragePath,
+            Tags = tags
         };
 
         if (string.IsNullOrEmpty(Id))
@@ -104,5 +115,6 @@ public partial class RecipeEditViewModel : ObservableObject
         StoragePath = r.StoragePath ?? "";
         _originalStoragePath = r.StoragePath;
         _imageChanged = false;
+        TagsCsv = r.Tags is null ? "" : string.Join(", ", r.Tags);
     }
 }
